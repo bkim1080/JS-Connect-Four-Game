@@ -1,11 +1,11 @@
-document.addEventListener("DOMContentLoaded", () => {
-	const board = document.querySelector(".grid");
+document.addEventListener("DOMContentLoaded", function () {
 	//create spots
+	const board = document.querySelector(".grid");
 	for (let i = 0; i < 42; i++) {
 		const spots = document.createElement("div");
 		board.append(spots);
 	}
-	for (let i = 0; i < 7; i++) {
+	for (let j = 0; j < 7; j++) {
 		const spots = document.createElement("div");
 		spots.classList.add("filled");
 		board.append(spots);
@@ -93,24 +93,24 @@ document.addEventListener("DOMContentLoaded", () => {
 	];
 
 	function addChip() {
-		for (let i = 0; i < spots.length; i++) {
-			spots[i].onclick = () => {
+		for (let k = 0; k < spots.length; k++) {
+			spots[k].onclick = () => {
 				message.textContent = "";
 				//if the spot below your current spot is filled, you can add a chip
-				if (spots[i + 7].classList.contains("filled") && !spots[i].classList.contains("filled")) {
+				if (spots[k + 7].classList.contains("filled") && !spots[k].classList.contains("filled")) {
 					if (currentPlayer === "PLAYER 1") {
-						spots[i].classList.add("filled");
-						spots[i].classList.add("player-one");
+						spots[k].classList.add("filled");
+						spots[k].classList.add("player-one");
 						currentPlayer = "PLAYER 2";
 						displayCurrentPlayer.textContent = currentPlayer;
 					} else if (currentPlayer === "PLAYER 2") {
-						spots[i].classList.add("filled");
-						spots[i].classList.add("player-two");
+						spots[k].classList.add("filled");
+						spots[k].classList.add("player-two");
 						currentPlayer = "PLAYER 1";
 						displayCurrentPlayer.textContent = currentPlayer;
 					}
 				} else {
-					message.textContent = "Can't add here";
+					message.textContent = "Can't add a chip here. Choose a different spot!";
 				}
 				//change current player's text color
 				if (currentPlayer === "PLAYER 1") {
@@ -124,12 +124,14 @@ document.addEventListener("DOMContentLoaded", () => {
 		}
 	}
 
+	addChip();
+
 	function checkForWinner() {
-		for (let j = 0; j < winningArrays.length; j++) {
-			const spot1 = spots[winningArrays[j][0]];
-			const spot2 = spots[winningArrays[j][1]];
-			const spot3 = spots[winningArrays[j][2]];
-			const spot4 = spots[winningArrays[j][3]];
+		for (let l = 0; l < winningArrays.length; l++) {
+			const spot1 = spots[winningArrays[l][0]];
+			const spot2 = spots[winningArrays[l][1]];
+			const spot3 = spots[winningArrays[l][2]];
+			const spot4 = spots[winningArrays[l][3]];
 
 			//check if player 1 wins
 			if (
@@ -140,8 +142,8 @@ document.addEventListener("DOMContentLoaded", () => {
 			) {
 				result.textContent = "Player One Wins!";
 				result.style.color = "red";
-				for (let i = 0; i < spots.length; i++) {
-					spots[i].onclick = null;
+				for (let m = 0; m < spots.length; m++) {
+					spots[m].onclick = null;
 				}
 				message.textContent = "";
 				displayCurrentPlayer.textContent = "";
@@ -156,8 +158,8 @@ document.addEventListener("DOMContentLoaded", () => {
 			) {
 				result.textContent = "Player Two Wins!";
 				result.style.color = "blue";
-				for (let i = 0; i < spots.length; i++) {
-					spots[i].onclick = null;
+				for (let n = 0; n < spots.length; n++) {
+					spots[n].onclick = null;
 				}
 				message.textContent = "";
 				playersTurn.style.display = "none";
@@ -166,13 +168,13 @@ document.addEventListener("DOMContentLoaded", () => {
 	}
 
 	function resetGame() {
-		for (let i = 0; i < spots.length; i++) {
-			if (spots[i].classList.contains("player-one") && spots[i].classList.contains("filled")) {
-				spots[i].classList.remove("player-one");
-				spots[i].classList.remove("filled");
-			} else if (spots[i].classList.contains("player-two") && spots[i].classList.contains("filled")) {
-				spots[i].classList.remove("player-two");
-				spots[i].classList.remove("filled");
+		for (let o = 0; o < spots.length; o++) {
+			if (spots[o].classList.contains("player-one") && spots[o].classList.contains("filled")) {
+				spots[o].classList.remove("player-one");
+				spots[o].classList.remove("filled");
+			} else if (spots[o].classList.contains("player-two") && spots[o].classList.contains("filled")) {
+				spots[o].classList.remove("player-two");
+				spots[o].classList.remove("filled");
 			}
 		}
 		currentPlayer = "PLAYER 1";
@@ -186,6 +188,4 @@ document.addEventListener("DOMContentLoaded", () => {
 	}
 
 	resetBtn.addEventListener("click", resetGame);
-
-	addChip();
 });
